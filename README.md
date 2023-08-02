@@ -28,9 +28,14 @@ yarn create vite my-vue-app --template vue
 
     - 然后需要在 项目根目录 之中创建 .eslintrc.js，配置规则
 
-### 添加路由
+### 添加路由 vue-router
 
 1. 安装 npm install vue-router@4 --save
 2. 创建路由配置文件
 3. 在主应用文件（例如 main.js）中挂载路由
 4. 在 App.vue 中使用 <router-view> 来渲染路由组件
+
+### 添加 css 扩展语言 less
+
+1. npm install less --save-dev
+2. 使用 <style lang="less"></style>
