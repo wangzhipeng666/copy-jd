@@ -1,9 +1,7 @@
-<script setup>
-import { ElButton } from 'element-plus';
-</script>
+<script setup></script>
 
 <template>
-    <el-button>测试</el-button>
+    <router-view></router-view>
 </template>
 
 <style scoped></style>
