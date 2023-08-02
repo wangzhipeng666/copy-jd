@@ -1,8 +1,13 @@
 <template>
     <div class="container">
         <div class="container-menu">
-            <el-menu default-active="1" class="container-menu__top" :collapse="isCollapse">
-                <el-menu-item index="1">
+            <el-menu
+                default-active="/article"
+                class="container-menu__top"
+                :collapse="isCollapse"
+                :router="true"
+            >
+                <el-menu-item index="/article">
                     <el-icon><Edit /></el-icon>
                     <template #title>文章管理</template>
                 </el-menu-item>
@@ -43,6 +48,9 @@ const isCollapse = ref(false);
 </script>
 
 <style scoped lang="less">
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 208px;
+}
 .container {
     display: flex;
     &-menu {
@@ -50,7 +58,6 @@ const isCollapse = ref(false);
         flex-direction: column;
         height: 100vh;
         background-color: #ffffff;
-        max-width: 208px;
         &__top {
             overflow: auto;
             flex: 1;
@@ -64,6 +71,7 @@ const isCollapse = ref(false);
     }
     &-content {
         padding: 32px;
+        width: 100%;
     }
 }
 </style>

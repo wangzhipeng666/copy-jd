@@ -6,7 +6,13 @@ import Home from '../components/container/index.vue';
 const routes = [
     {
         path: '/',
-        component: Home
+        component: Home,
+        children: [
+            {
+                path: 'article',
+                component: () => import('../components/articleManage/index.vue')
+            }
+        ]
     }
 ];
 
