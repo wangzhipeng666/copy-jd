@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element-plus": "^2.3.8",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "unplugin-element-plus": "^0.7.2",
     "vite": "^4.4.5"
   }
 }
