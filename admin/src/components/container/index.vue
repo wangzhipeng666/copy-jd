@@ -71,7 +71,7 @@ const isCollapse = ref(false);
     }
     &-content {
         padding: 32px;
-        width: 100%;
+        width: 92%;
     }
 }
 </style>
