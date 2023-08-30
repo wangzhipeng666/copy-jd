@@ -7,8 +7,22 @@
 </template>
 
 <script setup>
-import {} from 'vue'
+import { onMounted } from 'vue'
 import { ElTable, ElTableColumn } from 'element-plus';
+import { getBlogListApi } from '@/api/blog.js';
+
+const getBlogList = () => {
+  let params = {
+
+  }
+  getBlogListApi(params).then(res => {
+    console.log(res);
+  })
+}
+
+onMounted(() => {
+  getBlogList();
+})
 
 const tableData = [
   {

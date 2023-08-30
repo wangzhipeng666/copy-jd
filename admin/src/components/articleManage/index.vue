@@ -9,7 +9,8 @@
 
 <script setup>
 import { ElCard } from 'element-plus';
-import articleList from './components/list.vue'
+import articleList from './components/list.vue';
+
 </script>
 
 <style lang="less" scoped>
