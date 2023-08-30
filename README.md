@@ -39,3 +39,16 @@ yarn create vite my-vue-app --template vue
 
 1. npm install less --save-dev
 2. 使用 <style lang="less"></style>
+
+### 封装axios - 网络请求
+1. npm install axios --save
+2. 创建api文件夹 详情见axios.js文件
+
+### vite配置别名
+```
+resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),  // 将@别名映射到src目录
+      'api': path.resolve(__dirname, './src/api'),
+    }
+},
