@@ -43,6 +43,7 @@ yarn create vite my-vue-app --template vue
 ### 封装axios - 网络请求
 1. npm install axios --save
 2. 创建api文件夹 详情见axios.js文件
+3. 配置请求头有可能会导致跨域错误 - 例如：config.headers['token'] = sessionStorage.getItem('token') || ''
 
 ### vite配置别名
 ```
@@ -52,3 +53,4 @@ resolve: {
       'api': path.resolve(__dirname, './src/api'),
     }
 },
+```
