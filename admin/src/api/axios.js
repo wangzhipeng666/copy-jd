@@ -37,7 +37,7 @@ instance.interceptors.request.use(config => {
 
 /** 添加响应拦截器  **/
 instance.interceptors.response.use(response => {
-    if (response.data.status == 'success') {
+    if (response.data.errno == '0') {
         return Promise.resolve(response.data)
     }
 
