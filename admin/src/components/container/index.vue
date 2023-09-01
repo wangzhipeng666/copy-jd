@@ -71,7 +71,10 @@ const isCollapse = ref(false);
     }
     &-content {
         padding: 32px;
-        width: 92%;
+        width: 100%;
+        height: 100vh;
+        overflow: scroll;
+        box-sizing: border-box;
     }
 }
 </style>
