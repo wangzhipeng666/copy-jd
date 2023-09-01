@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ElLoading, ElMessage } from 'element-plus';
+import { getTokenAUTH } from '@/utils/auth';
 
 const instance = axios.create({
     baseURL: 'http://localhost:8000', // 设置统一的请求前缀
@@ -33,6 +34,13 @@ instance.interceptors.request.use(config => {
     // if (config.url.includes('/api/blog/upload')) {
     //     config.headers['Content-Type'] = 'multipart/form-data'
     // }
+
+    // 自动携带token
+    // typeof window !== "undefined" 主要是为了兼容ssr的环境情况
+    if (getTokenAUTH() && typeof window !== "undefined") {
+        config.headers.Authorization = getTokenAUTH();
+    }
+
     return config
 }, error => {
     return Promise.reject(error)
