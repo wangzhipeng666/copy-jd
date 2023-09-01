@@ -9,8 +9,14 @@ const instance = axios.create({
 // // 统一设置post请求头，axios默认为application/json请求方式
 // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
+let loadingInstance = null  // 加载全局的loading
+
 /** 添加请求拦截器 **/
 instance.interceptors.request.use(config => {
+    loadingInstance = ElLoading.service({// 发起请求时加载全局loading，请求失败或有响应时会关闭
+        text: '拼命加载中...'
+    })
+
     // 添加时间戳参数，防止浏览器（IE）对get请求的缓存
     if (config.method === 'get') {
         config.params = {
@@ -34,6 +40,7 @@ instance.interceptors.request.use(config => {
 
 /** 添加响应拦截器  **/
 instance.interceptors.response.use(response => {
+    loadingInstance.close()
     if (response.data.errno == '0') {
         return Promise.resolve(response.data)
     } else {
@@ -44,7 +51,9 @@ instance.interceptors.response.use(response => {
         return Promise.reject(response.data.message)
     }
 }, error => {
+    loadingInstance.close()
     httpErrorStatusHandle(error)
+    return Promise.reject(error)
 })
 
 /* 统一封装get请求 */
@@ -85,7 +94,7 @@ export const post = (url, data, config = {}) => {
  */
 function httpErrorStatusHandle(error) {
     let message = '';
-    if (error && error.message) {
+    if (error && error.response) {
         switch(error.response.status) {
             case 302: message = '接口重定向了！';break;
             case 400: message = '参数不正确！';break;
