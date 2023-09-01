@@ -93,14 +93,14 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
 }
 
 /* 统一封装get请求 */
-export const get = (url, params, config = {}, customOptions) => {
+export const get = (url, params, config = {}, customOptions, loadingOptions) => {
     return new Promise((resolve, reject) => {
         $httpClient({
             method: 'get',
             url,
             params,
             ...config,
-        }, customOptions).then(response => {
+        }, customOptions, loadingOptions).then(response => {
             resolve(response)
         }).catch(error => {
             reject(error)
@@ -109,14 +109,14 @@ export const get = (url, params, config = {}, customOptions) => {
 }
 
 /* 统一封装post请求 */
-export const post = (url, data, config = {}, customOptions) => {
+export const post = (url, data, config = {}, customOptions, loadingOptions) => {
     return new Promise((resolve, reject) => {
         $httpClient({
             method: 'post', 
             url,
             data,
             ...config
-        }, customOptions).then(response => {
+        }, customOptions, loadingOptions).then(response => {
             resolve(response)
         }).catch(error => {
             reject(error)
