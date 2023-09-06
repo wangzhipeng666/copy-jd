@@ -2,9 +2,13 @@ import axios from 'axios';
 import { ElLoading, ElMessage } from 'element-plus';
 import { getTokenAUTH } from '@/utils/auth';
 
-let loadingInstance = null  // 加载全局的loading
+// let loadingInstance = null  // 加载全局的loading
+const LoadingInstance = {
+    _target: null, // 保存Loading实例
+    _count: 0
+};
 
-function $httpClient (axiosConfig, customOptions) {
+function $httpClient (axiosConfig, customOptions, loadingOptions) {
     const instance = axios.create({
         baseURL: 'http://localhost:8000', // 设置统一的请求前缀
         timeout: 10000, // 设置统一的超时时长
@@ -16,13 +20,14 @@ function $httpClient (axiosConfig, customOptions) {
     // 自定义配置
     let custom_options = Object.assign({
         repeat_request_cancel: true, // 是否开启取消重复请求, 默认为 true
+        loading: false, // 是否开启loading层效果, 默认为false
     }, customOptions);
 
     /** 添加请求拦截器 **/
     instance.interceptors.request.use(config => {
-        loadingInstance = ElLoading.service({// 发起请求时加载全局loading，请求失败或有响应时会关闭
-            text: '拼命加载中...'
-        })
+        // loadingInstance = ElLoading.service({// 发起请求时加载全局loading，请求失败或有响应时会关闭
+        //     text: '拼命加载中...'
+        // })
 
         // 添加时间戳参数，防止浏览器（IE）对get请求的缓存
         if (config.method === 'get') {
@@ -49,6 +54,14 @@ function $httpClient (axiosConfig, customOptions) {
         removePending(config);
         custom_options.repeat_request_cancel && addPending(config);
 
+        // 创建loading实例  
+        if (custom_options.loading) {
+            LoadingInstance._count++;
+            if(LoadingInstance._count === 1) {
+                LoadingInstance._target = ElLoading.service(loadingOptions)
+            }
+        }
+
         return config
     }, error => {
         return Promise.reject(error)
@@ -56,8 +69,9 @@ function $httpClient (axiosConfig, customOptions) {
 
     /** 添加响应拦截器 **/
     instance.interceptors.response.use(response => {
-        loadingInstance.close()
+        // loadingInstance.close()
         removePending(response.config);
+        custom_options.loading && closeLoading(custom_options); // 关闭loading
         if (response.data.errno == '0') {
             return Promise.resolve(response.data)
         } else {
@@ -68,8 +82,9 @@ function $httpClient (axiosConfig, customOptions) {
             return Promise.reject(response.data.message)
         }
     }, error => {
-        loadingInstance.close()
+        // loadingInstance.close()
         error.config && removePending(error.config)
+        custom_options.loading && closeLoading(custom_options); // 关闭loading
         httpErrorStatusHandle(error)
         return Promise.reject(error)
     })
@@ -107,6 +122,18 @@ export const post = (url, data, config = {}, customOptions) => {
             reject(error)
         })
     })
+}
+
+/**
+ * 关闭Loading层实例
+ * @param {*} _options 
+ */
+function closeLoading(_options) {
+    if(_options.loading && LoadingInstance._count > 0) LoadingInstance._count--;
+    if(LoadingInstance._count === 0) {
+      LoadingInstance._target.close();
+      LoadingInstance._target = null;
+    }
 }
 
 /* 重复请求处理 */

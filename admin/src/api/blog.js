@@ -1,9 +1,12 @@
 import { get, post } from './axios';
 import Qs from 'qs';
 
-export const getBlogListApi = (params) => get('/api/blog/list', params,
+export const getBlogListApi = (params) => get('/api/blog/list', params, {},
     {
-        repeat_request_cancel: false
+        loading: true
+    },
+    {
+        text: '获取列表数据...'
     }
 )
 // export const getBlogListApi = (params) => get('/api/blog/list', params,
