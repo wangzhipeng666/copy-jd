@@ -19,12 +19,12 @@ instance.interceptors.request.use(config => {
     })
 
     // 添加时间戳参数，防止浏览器（IE）对get请求的缓存
-    if (config.method === 'get') {
-        config.params = {
-            ...config.params,
-            t: new Date().getTime()
-        }
-    }
+    // if (config.method === 'get') {
+    //     config.params = {
+    //         ...config.params,
+    //         t: new Date().getTime()
+    //     }
+    // }
 
     // // 如果是导出文件的接口：因为返回的是二进制流，所以需要设置请求响应类型为blob。
     // if (config.url.includes('/api/blog/export')) {
@@ -40,15 +40,18 @@ instance.interceptors.request.use(config => {
     if (getTokenAUTH() && typeof window !== "undefined") {
         config.headers.Authorization = getTokenAUTH();
     }
+    removePending(config);
+    addPending(config);
 
     return config
 }, error => {
     return Promise.reject(error)
 })
 
-/** 添加响应拦截器  **/
+/** 添加响应拦截器 **/
 instance.interceptors.response.use(response => {
     loadingInstance.close()
+    removePending(response.config);
     if (response.data.errno == '0') {
         return Promise.resolve(response.data)
     } else {
@@ -60,6 +63,7 @@ instance.interceptors.response.use(response => {
     }
 }, error => {
     loadingInstance.close()
+    error.config && removePending(error.config)
     httpErrorStatusHandle(error)
     return Promise.reject(error)
 })
@@ -80,7 +84,7 @@ export const get = (url, params, config = {}) => {
     })
 }
 
-/* 统一封装post请求  */
+/* 统一封装post请求 */
 export const post = (url, data, config = {}) => {
     return new Promise((resolve, reject) => {
         instance({
@@ -94,6 +98,47 @@ export const post = (url, data, config = {}) => {
             reject(error)
         })
     })
+}
+
+/* 重复请求处理 */
+const pendingMap = new Map();
+
+/**
+ * 生成每个请求唯一的键
+ * @param {*} config 
+ * @returns string
+ */
+function getPendingKey(config) {
+  let {url, method, params, data} = config;
+  if(typeof data === 'string') data = JSON.parse(data); // response里面返回的config.data是个字符串对象
+  return [url, method, JSON.stringify(params), JSON.stringify(data)].join('&');
+}
+
+/**
+ * 储存每个请求唯一值, 也就是cancel()方法, 用于取消请求
+ * @param {*} config 
+ */
+function addPending(config) {
+  const pendingKey = getPendingKey(config);
+  config.cancelToken = config.cancelToken || new axios.CancelToken((cancel) => {
+    if (!pendingMap.has(pendingKey)) {
+      pendingMap.set(pendingKey, cancel);
+    }
+  });
+}
+
+/**
+ * 删除重复的请求
+ * @param {*} config 
+ */
+function removePending(config) {
+    const pendingKey = getPendingKey(config);
+    if (pendingMap.has(pendingKey)) {
+       const cancelToken = pendingMap.get(pendingKey);
+       console.log(cancelToken)
+       cancelToken(pendingKey);
+       pendingMap.delete(pendingKey);
+    }
 }
 
 /**

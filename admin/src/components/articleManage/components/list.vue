@@ -20,9 +20,17 @@ const getBlogList = () => {
   let params = {}
   getBlogListApi(params).then(res => {
     tableData.value = res.data
-  }).catch(err => {
-    console.log(err, 'err');
   })
+  setTimeout(() => {
+    getBlogListApi(params).then(res => {
+      tableData.value = res.data
+    })
+  }, 1000)
+  setTimeout(() => {
+    getBlogListApi(params).then(res => {
+      tableData.value = res.data
+    })
+  }, 3000)
 }
 
 onMounted(() => {
