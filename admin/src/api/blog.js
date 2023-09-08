@@ -9,6 +9,8 @@ export const getBlogListApi = (params) => get('/api/blog/list', params, {},
         text: '获取列表数据...'
     }
 )
+
+export const saveBlogApi = (data) => post('/api/blog/new', data);
 // export const getBlogListApi = (params) => get('/api/blog/list', params,
 //     {
 //         headers: {

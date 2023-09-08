@@ -13,8 +13,14 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
         baseURL: 'http://localhost:8000', // 设置统一的请求前缀
         timeout: 10000, // 设置统一的超时时长
     })
+
+    // 设置请求头
+    // instance.defaults.headers.common['Content-Type'] = 'application/json'; // 设置请求的内容类型
+
+    // 如果服务器要求使用身份验证令牌，可以添加如下请求头
+    // instance.defaults.headers.common['Authorization'] = 'Bearer your-token';
     
-    // // 统一设置post请求头，axios默认为application/json请求方式
+    // // 统一设置请求头，axios默认为application/json请求方式
     // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
     // 自定义配置
@@ -48,9 +54,9 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
 
         // 自动携带token
         // typeof window !== "undefined" 主要是为了兼容ssr的环境情况
-        if (getTokenAUTH() && typeof window !== "undefined") {
-            config.headers.Authorization = getTokenAUTH();
-        }
+        // if (getTokenAUTH() && typeof window !== "undefined") {
+        //     config.headers.Authorization = getTokenAUTH();
+        // }
         removePending(config);
         custom_options.repeat_request_cancel && addPending(config);
 
