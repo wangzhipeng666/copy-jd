@@ -20,7 +20,7 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
     // 如果服务器要求使用身份验证令牌，可以添加如下请求头
     // instance.defaults.headers.common['Authorization'] = 'Bearer your-token';
     
-    // // 统一设置请求头，axios默认为application/json请求方式
+    // // 统一设置post请求头，axios默认为application/json请求方式
     // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
     // 自定义配置
