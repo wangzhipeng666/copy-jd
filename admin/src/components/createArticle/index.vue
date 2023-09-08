@@ -28,6 +28,10 @@ const handleSaveArticle = () => {
         content: content.value,
         author: 'wang',
     }
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', 'http://localhost:8000/api/blog/new', true);
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xhr.send(`title=${title.value}&content=${content.value}&author=wang`);
     saveBlogApi(data).then(res => {
         console.log(res.data);
     })
