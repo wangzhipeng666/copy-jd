@@ -10,7 +10,11 @@ const routes = [
         children: [
             {
                 path: 'article',
-                component: () => import('../components/articleManage/index.vue')
+                component: () => import('../components/articleList/index.vue')
+            },
+            {
+                path: 'createArticle',
+                component: () => import('../components/createArticle/index.vue')
             }
         ]
     }

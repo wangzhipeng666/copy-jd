@@ -1,6 +1,6 @@
 <template>
   <div class="article-toolbar">
-    <el-button type="primary">新建文章</el-button>
+    <el-button type="primary" @click="handleToPage">新建文章</el-button>
   </div>
   <el-table :data="tableData" style="width: 100%" stripe>
     <el-table-column prop="title" label="Title" />
@@ -13,6 +13,10 @@
 import { onMounted, ref } from 'vue'
 import { ElTable, ElTableColumn, ElButton } from 'element-plus';
 import { getBlogListApi } from '@/api/blog.js';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
 
 const tableData = ref([]);
 
@@ -21,16 +25,10 @@ const getBlogList = () => {
   getBlogListApi(params).then(res => {
     tableData.value = res.data
   })
-  setTimeout(() => {
-    getBlogListApi(params).then(res => {
-      tableData.value = res.data
-    })
-  }, 1000)
-  setTimeout(() => {
-    getBlogListApi(params).then(res => {
-      tableData.value = res.data
-    })
-  }, 3000)
+}
+
+const handleToPage = () => {
+  router.push('/createArticle');
 }
 
 onMounted(() => {
