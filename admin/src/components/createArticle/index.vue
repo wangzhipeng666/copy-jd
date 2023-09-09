@@ -12,13 +12,17 @@
 import { ref } from 'vue';
 import { ElCard, ElInput, ElButton, ElMessage } from 'element-plus';
 import { saveBlogApi } from '@/api/blog.js';
+import { useRouter, useRoute } from 'vue-router';
 
-const title = ref('test');
+const router = useRouter();
+const route = useRoute();
+
+const title = ref('');
 const content = ref('# 文本');
 
 const handleSaveArticle = () => {
-    if (!title) {
-        ElMessage({
+    if (!title.value) {
+        return ElMessage({
             message: '不要忘记填写文章标题哦',
             type: 'warning',
         })
@@ -33,7 +37,13 @@ const handleSaveArticle = () => {
     // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     // xhr.send(`title=${title.value}&content=${content.value}&author=wang`);
     saveBlogApi(data).then(res => {
-        console.log(res.data);
+        if (res.errno === 0) {
+            ElMessage({
+                message: '保存成功',
+                type: 'success',
+            })
+            router.push('/');
+        }
     })
 }
 </script>

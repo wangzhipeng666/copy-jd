@@ -28,7 +28,9 @@ const tableData = ref([]);
 const getBlogList = () => {
   let params = {}
   getBlogListApi(params).then(res => {
-    tableData.value = res.data
+    if (res.errno === 0) {
+      tableData.value = res.data
+    }
   })
 }
 
