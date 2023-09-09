@@ -4,8 +4,12 @@
   </div>
   <el-table :data="tableData" style="width: 100%" stripe>
     <el-table-column prop="title" label="Title" />
-    <el-table-column prop="createtime" label="Date" />
-    <el-table-column prop="address" label="Address" />
+    <el-table-column label="Date">
+      <template #default="scope">
+        {{ filterDateFormat(scope.row.createtime) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="author" label="author" />
   </el-table>
 </template>
 
@@ -14,6 +18,7 @@ import { onMounted, ref } from 'vue'
 import { ElTable, ElTableColumn, ElButton } from 'element-plus';
 import { getBlogListApi } from '@/api/blog.js';
 import { useRouter, useRoute } from 'vue-router';
+import { filterDateFormat } from '@/utils'
 
 const router = useRouter();
 const route = useRoute();
