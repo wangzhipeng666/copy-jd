@@ -58,3 +58,9 @@ resolve: {
 跨域原因：axios的post请求默认为application/json请求方式，属于复杂请求，需要后端配置响应的请求头。浏览器在正式发送请求前会进行一次预检请求，需要后端对预检请求进行处理
 解决办法：后端配置响应头和预检请求
 相关文章：https://cloud.tencent.com/developer/article/1964217
+
+### 请求携带 Cookie
+如果要在请求接口时携带cookie，需要对axios进行配置
+```
+withCredentials: true,
+```
