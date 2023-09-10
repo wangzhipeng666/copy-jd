@@ -12,6 +12,7 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
     const instance = axios.create({
         baseURL: 'http://localhost:8000', // 设置统一的请求前缀
         timeout: 10000, // 设置统一的超时时长
+        withCredentials: true, // 启用跨域请求携带 Cookie
     })
 
     // 设置请求头
