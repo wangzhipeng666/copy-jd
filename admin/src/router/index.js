@@ -17,6 +17,10 @@ const routes = [
                 component: () => import('../components/createArticle/index.vue')
             }
         ]
+    },
+    {
+        path: '/login',
+        component: () => import('../components/login/index.vue')
     }
 ];
 
