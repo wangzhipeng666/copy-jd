@@ -13,13 +13,13 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8001,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''), // 可选：如果后端API不在根路径，可以通过这个选项来去除前缀
-      },
-    },
+    port: 8080,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ''), // 可选：如果后端API不在根路径，可以通过这个选项来去除前缀
+    //   },
+    // },
   },
 });
