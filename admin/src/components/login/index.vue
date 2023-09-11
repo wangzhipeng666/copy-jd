@@ -9,7 +9,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="login">确 定</el-button>
-            <el-button>取 消</el-button>
+            <el-button>注 册</el-button>
         </el-form-item>
     </el-form>
   </div>

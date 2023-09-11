@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ElLoading, ElMessage } from 'element-plus';
 import { getTokenAUTH } from '@/utils/auth';
+import router from '@/router/index'
 
 // let loadingInstance = null  // 加载全局的loading
 const LoadingInstance = {
@@ -82,10 +83,19 @@ function $httpClient (axiosConfig, customOptions, loadingOptions) {
         if (response.data.errno == '0') {
             return Promise.resolve(response.data)
         } else {
+            if (response.data.message === '尚未登录') {
+                ElMessage({
+                    message: response.data.message,
+                    type: 'error'
+                })
+                router.push('/login');
+            }
+
             ElMessage({
                 message: response.data.message,
                 type: 'error'
             })
+            
             return Promise.reject(response.data.message)
         }
     }, error => {
