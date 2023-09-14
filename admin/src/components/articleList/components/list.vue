@@ -13,7 +13,16 @@
     <el-table-column label="操作">
       <template #default="scope">
         <el-button type="primary" @click="handleEditArticle(scope.row.id)" style="margin-right:10px;">修改</el-button>
-        <el-button type="danger" @click="handleDelArticle(scope.row.id)">删除</el-button>
+        <el-popconfirm
+          title="确定要删除这条博客吗?"
+          confirm-button-text="确定"
+          cancel-button-text="取消"
+          @confirm="handleDelArticle(scope.row.id)"
+        >
+          <template #reference>
+            <el-button type="danger">删除</el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
@@ -21,8 +30,8 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { ElTable, ElTableColumn, ElButton } from 'element-plus';
-import { getBlogListApi } from '@/api/blog.js';
+import { ElTable, ElTableColumn, ElButton, ElMessage, ElPopconfirm } from 'element-plus';
+import { getBlogListApi, delBlogApi } from '@/api/blog.js';
 import { useRouter, useRoute } from 'vue-router';
 import { filterDateFormat } from '@/utils'
 
@@ -47,14 +56,20 @@ const handleToPage = () => {
 const handleEditArticle = (id) => {
   router.push({
     path: '/createArticle',
-    query: {
-      id: JSON.stringify(id)
-    }
+    query: { id }
   });
 }
 
 const handleDelArticle = (id) => {
-  console.log(id)
+  delBlogApi(id).then(res => {
+    if (res.errno === 0) {
+      ElMessage({
+          message: '删除成功',
+          type: 'success',
+      })
+      getBlogList();
+    }
+  })
 }
 
 onMounted(() => {

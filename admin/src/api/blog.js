@@ -1,6 +1,7 @@
 import { get, post } from './axios';
 import Qs from 'qs';
 
+// 获取博客列表
 export const getBlogListApi = (params) => get('/api/blog/list', params, {},
     {
         loading: true
@@ -9,9 +10,24 @@ export const getBlogListApi = (params) => get('/api/blog/list', params, {},
         text: '获取列表数据...'
     }
 )
-
+// 获取博客详情
+export const getBlogDetailApi = (params) => get('/api/blog/detail', params, {},
+    {
+        loading: true
+    },
+    {
+        text: '获取详情...'
+    }
+)
+// 新建博客
 export const saveBlogApi = (data) => post('/api/blog/new', data);
-// export const getBlogListApi = (params) => get('/api/blog/list', params,
+// 更新博客
+export const uploadBlogApi = (articleId, data) => post(`/api/blog/update?id=${articleId}`, data);
+// 删除博客
+export const delBlogApi = (articleId) => post(`/api/blog/del?id=${articleId}`);
+
+// 示例代码
+// export const testApi = (params) => get('/api/blog/test', params,
 //     {
 //         headers: {
 //             'Content-Type': 'application/x-www-form-urlencoded'
