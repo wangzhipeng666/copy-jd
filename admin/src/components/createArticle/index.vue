@@ -9,9 +9,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElCard, ElInput, ElButton, ElMessage } from 'element-plus';
-import { saveBlogApi } from '@/api/blog.js';
+import { saveBlogApi, getBlogDetailApi } from '@/api/blog.js';
 import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
@@ -19,6 +19,25 @@ const route = useRoute();
 
 const title = ref('');
 const content = ref('# 文本');
+
+const articleId = route.query.id
+
+const getBlogDetail = () => {
+    getBlogDetailApi({
+        id: articleId
+    }).then(res => {
+        if (res.errno === 0) {
+            title.value = res.data.title
+            content.value = res.data.content
+        }
+    })
+}
+
+onMounted(() => {
+    if (articleId) {
+        getBlogDetail()
+    }
+})
 
 const handleSaveArticle = () => {
     if (!title.value) {
