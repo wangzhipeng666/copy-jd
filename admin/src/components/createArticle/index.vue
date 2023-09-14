@@ -3,6 +3,7 @@
         <el-input v-model="title" placeholder="请输入文章标题" style="width:50%; "/>
         <div class="action">
             <el-button type="primary" @click="handleSaveArticle">保存 ⌘ + S</el-button>
+            <el-button @click="router.push('/')">返回</el-button>
         </div>
     </el-card>
   <v-md-editor v-model="content" height="100%"></v-md-editor>
