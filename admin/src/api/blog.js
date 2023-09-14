@@ -21,7 +21,11 @@ export const getBlogDetailApi = (params) => get('/api/blog/detail', params, {},
 )
 // 新建博客
 export const saveBlogApi = (data) => post('/api/blog/new', data);
-// export const getBlogListApi = (params) => get('/api/blog/list', params,
+// 更新博客
+export const uploadBlogApi = (articleId, data) => post(`/api/blog/update?id=${articleId}`, data);
+
+// 示例代码
+// export const testApi = (params) => get('/api/blog/test', params,
 //     {
 //         headers: {
 //             'Content-Type': 'application/x-www-form-urlencoded'

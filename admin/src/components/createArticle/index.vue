@@ -11,7 +11,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { ElCard, ElInput, ElButton, ElMessage } from 'element-plus';
-import { saveBlogApi, getBlogDetailApi } from '@/api/blog.js';
+import { saveBlogApi, getBlogDetailApi, uploadBlogApi } from '@/api/blog.js';
 import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
@@ -55,16 +55,20 @@ const handleSaveArticle = () => {
     // xhr.open('POST', 'http://localhost:8000/api/blog/new', true);
     // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     // xhr.send(`title=${title.value}&content=${content.value}&author=wang`);
-    saveBlogApi(data).then(res => {
+
+    const apiCall = articleId ? uploadBlogApi(articleId, data) : saveBlogApi(data)
+    apiCall.then(res => {
         if (res.errno === 0) {
+            const message = articleId ? '更新成功' : '保存成功'
             ElMessage({
-                message: '保存成功',
+                message,
                 type: 'success',
             })
             router.push('/');
         }
     })
 }
+
 </script>
 
 <style lang="less" scoped>
