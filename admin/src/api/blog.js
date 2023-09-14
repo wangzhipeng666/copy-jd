@@ -23,6 +23,8 @@ export const getBlogDetailApi = (params) => get('/api/blog/detail', params, {},
 export const saveBlogApi = (data) => post('/api/blog/new', data);
 // 更新博客
 export const uploadBlogApi = (articleId, data) => post(`/api/blog/update?id=${articleId}`, data);
+// 删除博客
+export const delBlogApi = (articleId) => post(`/api/blog/del?id=${articleId}`);
 
 // 示例代码
 // export const testApi = (params) => get('/api/blog/test', params,
